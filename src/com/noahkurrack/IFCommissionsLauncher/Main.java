@@ -9,12 +9,15 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
 
@@ -28,11 +31,40 @@ public class Main {
 
     private static File dir;
 
+    private static Process process;
+
+    private static LauncherGUI gui;
+
     public static void main(String[] args) {
         System.out.println("IFCommissions Launcher initializing...");
 
-	    //check for directory
-            //if doesnt exist, create directory
+        //gui
+        try {
+            EventQueue.invokeAndWait(() -> {
+                gui = new LauncherGUI();
+                gui.setVisible(true);
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Gui set visible");
+            });
+        } catch (InterruptedException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        Main.execute();
+    }
+
+    public static Process getProcess() {
+        return process;
+    }
+
+    public static void execute() {
+        //check for directory
+        //if doesnt exist, create directory
         System.out.println("Establishing local directory...");
         dir = new File("IFCommissions_local");
 
@@ -165,6 +197,9 @@ public class Main {
             }
         }
 
+        //Scanner scanner = new Scanner(System.in);
+        //scanner.nextLine();
+
         //launch jar
         try {
             if (finalJarName == null) {
@@ -176,17 +211,18 @@ public class Main {
             String[] commandArray = {"java", "-jar", finalJar.getCanonicalPath()};
 
             Runtime runtime = Runtime.getRuntime();
-            Process javap = runtime.exec(commandArray);
-            writeProcessOutput(javap);
+            process = runtime.exec(commandArray);
+            writeProcessOutput();
+            process.waitFor();
         } catch (Exception e) {
             System.out.println("Could not launch IFCommissions Calculator...");
             e.printStackTrace();
         }
 
-        System.out.println("Launcher exiting...");
+        gui.close();
     }
 
-    private static void writeProcessOutput(Process process) throws Exception{
+    private static void writeProcessOutput() throws Exception{
         InputStreamReader tempReader = new InputStreamReader(
                 new BufferedInputStream(process.getInputStream()));
         BufferedReader reader = new BufferedReader(tempReader);
