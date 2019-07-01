@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final String urlTrunk = "http://ifcommissions.noahkurrack.com";
+    private static final String urlTrunk = "https://ifcommissions.noahkurrack.com";
     private static final String versionsUrl = urlTrunk + "/versions.xml";
 
     private static String newest_versionNumber;

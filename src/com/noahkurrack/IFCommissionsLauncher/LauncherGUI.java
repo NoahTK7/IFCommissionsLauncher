@@ -6,20 +6,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintStream;
 
-public class LauncherGUI extends JFrame {
+class LauncherGUI extends JFrame {
 
     private static final int width = 625;
     private static final int height = 350;
 
-    final private JPanel panel;
-    private JTextArea console;
-    private JScrollPane scrollPane;
+    LauncherGUI() {
+        JPanel panel = new JPanel(true);
 
-    public LauncherGUI() {
-        panel = new JPanel(true);
-
-        console = new JTextArea(18, 45);
-        scrollPane = new JScrollPane(console);
+        JTextArea console = new JTextArea(18, 45);
+        JScrollPane scrollPane = new JScrollPane(console);
 
         PrintStream con = new PrintStream(new TextAreaOutputStream(console));
         System.setOut(con);
@@ -57,7 +53,7 @@ public class LauncherGUI extends JFrame {
         });
     }
 
-    public void close() {
+    void close() {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

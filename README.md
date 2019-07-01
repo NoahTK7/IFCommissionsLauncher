@@ -6,10 +6,10 @@ Created as a wrapper for [IFCommissions](https://github.com/NoahTK7/IFCommission
 
 ### Download
 
-Visit http://ifcommissions.noahkurrack.com/jars to downlad the launcher.
+Visit https://ifcommissions.noahkurrack.com/jars to downlad the launcher.
 
 ### Credit
 
-All code is my own.
+All code is my own, except for the TextAreaOutputStream class.
 
 (C) Copyright 2019 Noah Kurrack. All rights reserved.

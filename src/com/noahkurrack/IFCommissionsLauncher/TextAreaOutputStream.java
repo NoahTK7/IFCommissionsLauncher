@@ -19,11 +19,11 @@ public class TextAreaOutputStream
     private byte[]                          oneByte;                                                    // array for write(int val);
     private Appender                        appender;                                                   // most recent action
 
-    public TextAreaOutputStream(JTextArea txtara) {
+    TextAreaOutputStream(JTextArea txtara) {
         this(txtara,1000);
     }
 
-    public TextAreaOutputStream(JTextArea txtara, int maxlin) {
+    private TextAreaOutputStream(JTextArea txtara, int maxlin) {
         if(maxlin<1) { throw new IllegalArgumentException("TextAreaOutputStream maximum lines must be positive (value="+maxlin+")"); }
         oneByte=new byte[1];
         appender=new Appender(txtara,maxlin);
