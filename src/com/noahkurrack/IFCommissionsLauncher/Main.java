@@ -16,8 +16,6 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class Main {
 
@@ -25,7 +23,6 @@ public class Main {
     private static final String versionsUrl = urlTrunk + "/versions.xml";
 
     private static String newest_versionNumber;
-    private static String newest_releaseType;
     private static String newest_filePath;
     private static String newestFileName;
 
@@ -58,11 +55,11 @@ public class Main {
         Main.execute();
     }
 
-    public static Process getProcess() {
+    static Process getProcess() {
         return process;
     }
 
-    public static void execute() {
+    private static void execute() {
         //check for directory
         //if doesnt exist, create directory
         System.out.println("Establishing local directory...");
@@ -85,6 +82,7 @@ public class Main {
             doc = db.parse(new URL(versionsUrl).openStream());
         } catch (SAXException | IOException | ParserConfigurationException e) {
             e.printStackTrace();
+            doc = null;
         }
 
         if (doc != null) {
@@ -98,9 +96,9 @@ public class Main {
                 {
                     Element studentElement = (Element) studentNode;
                     int id = Integer.valueOf(studentElement.getElementsByTagName("id").item(0).getTextContent());
-                    String versionNumber = studentElement.getElementsByTagName("versionNumber").item(0).getTextContent();
-                    String releaseType = studentElement.getElementsByTagName("releaseType").item(0).getTextContent();
-                    String filePath = studentElement.getElementsByTagName("filePath").item(0).getTextContent();
+                    //String versionNumber = studentElement.getElementsByTagName("versionNumber").item(0).getTextContent();
+                    //String releaseType = studentElement.getElementsByTagName("releaseType").item(0).getTextContent();
+                    //String filePath = studentElement.getElementsByTagName("filePath").item(0).getTextContent();
                     //System.out.println("ID = " + id);
                     //System.out.println("Version Number = " + versionNumber);
                     //System.out.println("Release Type = " + releaseType);
@@ -115,7 +113,7 @@ public class Main {
 
             Element newestVersion = (Element) studentNodes.item(i_id);
             newest_versionNumber = newestVersion.getElementsByTagName("versionNumber").item(0).getTextContent();
-            newest_releaseType = newestVersion.getElementsByTagName("releaseType").item(0).getTextContent();
+            String newest_releaseType = newestVersion.getElementsByTagName("releaseType").item(0).getTextContent();
             newest_filePath = newestVersion.getElementsByTagName("filePath").item(0).getTextContent();
             System.out.println("Newest Version Number = " + newest_versionNumber);
             System.out.println("Newest Release Type = " + newest_releaseType);
