@@ -133,8 +133,12 @@ public class Main {
         //if current, continue
         //if not current, delete jar, download current
         System.out.println("Checking current install...");
-        String[] tmp = newest_filePath.split("/");
-        newestFileName = tmp[tmp.length-1];
+        if (newest_filePath == null || newest_versionNumber == null) {
+            newest_versionNumber = "none__found";
+        } else {
+            String[] tmp = newest_filePath.split("/");
+            newestFileName = tmp[tmp.length-1];
+        }
         //System.out.println(newestFileName);
 
         File[] existingFiles = dir.listFiles(new FileFilter() {
@@ -234,6 +238,8 @@ public class Main {
 
     //returns true if v1 greater than v2
     private static boolean compareVersions(String version1, String version2) {
+        if (version1.equals("none__found") || version2.equals("none__found")) return false;
+
         String[] v1 = version1.split("\\.");
         String[] v2 = version2.split("\\.");
 
